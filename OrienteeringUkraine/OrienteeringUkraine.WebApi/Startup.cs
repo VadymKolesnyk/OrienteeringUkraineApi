@@ -14,6 +14,9 @@ using System.Reflection;
 using System;
 using System.Linq;
 using OrienteeringUkraine.Application;
+using OrienteeringUkraine.Application.Infrastructure.Mediator.Extensions;
+using OrienteeringUkraine.Application.Infrastructure.AutoMapper.Extensions;
+using Microsoft.OpenApi.Models;
 
 namespace OrienteeringUkraine.WebApi
 {
@@ -36,26 +39,31 @@ namespace OrienteeringUkraine.WebApi
             //    configuration.RootPath = "ClientApp/dist";
             //});
             services.AddDatabase(Configuration);
-            services.AddMediatR(typeof(OrienteeringUkraine.Application.Class1).Assembly);
+            services.AddCustomMediator();
+            services.AddCustomAutoMapper();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Orienteering Ukraine API", Version = "v1" });
+            });
             #region Api Versioning
-            services.AddApiVersioning(
-               options =>
-               {
-                   // use api v1.0 by default
-                   options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
-                   options.AssumeDefaultVersionWhenUnspecified = true;
-                   // if not specified in header 
-                   options.ApiVersionReader = new HeaderApiVersionReader("api-version");
-                   options.ReportApiVersions = true;
-               });
+            //services.AddApiVersioning(
+            //   options =>
+            //   {
+            //       // use api v1.0 by default
+            //       options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
+            //       options.AssumeDefaultVersionWhenUnspecified = true;
+            //       // if not specified in header 
+            //       options.ApiVersionReader = new HeaderApiVersionReader("api-version");
+            //       options.ReportApiVersions = true;
+            //   });
 
-            services.AddVersionedApiExplorer(
-                options =>
-                {
-                    //Format: vMajorVersion.MinorVersion
-                    options.GroupNameFormat = "'v'VV";
-                    options.SubstituteApiVersionInUrl = true;
-                });
+            //services.AddVersionedApiExplorer(
+            //    options =>
+            //    {
+            //        //Format: vMajorVersion.MinorVersion
+            //        options.GroupNameFormat = "'v'VV";
+            //        options.SubstituteApiVersionInUrl = true;
+            //    });
             #endregion
         }
 
@@ -66,9 +74,15 @@ namespace OrienteeringUkraine.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Orienteering Ukraine API v1");
+            });
 
-            app.UseRouting();
             app.UseHttpsRedirection();
+            app.UseRouting();
+
             app.UseStaticFiles();
 
             app.MigrateDatabase(Configuration);

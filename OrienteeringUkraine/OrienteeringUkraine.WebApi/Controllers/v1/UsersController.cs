@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using OrienteeringUkraine.Application.Users.Models;
+using OrienteeringUkraine.Application.Users.Queries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +16,9 @@ namespace OrienteeringUkraine.WebApi.Controllers.v1
         }
         // GET: api/<UsersController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult<UsersCollectionModel>> GetAllUsers()
         {
-            return new string[] { "value1", "value2" };
+            return Ok(await Mediator.Send(new GetAllUsersQuery()));
         }
 
         // GET api/<UsersController>/5

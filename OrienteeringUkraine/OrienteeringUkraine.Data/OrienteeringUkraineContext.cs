@@ -13,11 +13,8 @@ namespace OrienteeringUkraine.Data
     public partial class OrienteeringUkraineContext : DbContext
     {
         private readonly StreamWriter logStream = new StreamWriter("sqlserverlog.txt", true);
+        private bool disposed = false;
         public OrienteeringUkraineContext(DbContextOptions<OrienteeringUkraineContext> options) : base(options)
-        {
-        }
-
-        public OrienteeringUkraineContext()
         {
         }
 
@@ -45,11 +42,22 @@ namespace OrienteeringUkraine.Data
         }
         public override void Dispose()
         {
+            if (disposed)
+            {
+                return;
+            }
+            disposed = true;
             base.Dispose();
             logStream.Dispose();
+            GC.SuppressFinalize(this);
         }
         public override async ValueTask DisposeAsync()
         {
+            if (disposed)
+            {
+                return;
+            }
+            disposed = true;
             await base.DisposeAsync();
             await logStream.DisposeAsync();
         }
