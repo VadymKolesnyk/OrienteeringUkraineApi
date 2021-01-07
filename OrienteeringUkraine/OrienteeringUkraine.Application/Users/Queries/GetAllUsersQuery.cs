@@ -27,8 +27,7 @@ namespace OrienteeringUkraine.Application.Users.Queries
 
             public async Task<UsersCollectionModel> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
             {
-                var allUsers = await dbContext.Users
-                    .ToListAsync(cancellationToken);
+                var allUsers = await dbContext.Users.ToListAsync(cancellationToken);
 
                 var mappedUsers = mapper.Map<IEnumerable<UserModel>>(allUsers);
 

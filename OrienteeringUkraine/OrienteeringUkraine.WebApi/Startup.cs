@@ -1,22 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc.Versioning;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using OrienteeringUkraine.Data;
-using OrienteeringUkraine.WebApi.Infrastructure.Data.Extensions;
-using MediatR;
-using System.Reflection;
-using System;
-using System.Linq;
-using OrienteeringUkraine.Application;
-using OrienteeringUkraine.Application.Infrastructure.Mediator.Extensions;
-using OrienteeringUkraine.Application.Infrastructure.AutoMapper.Extensions;
 using Microsoft.OpenApi.Models;
+using OrienteeringUkraine.Application.Infrastructure.AutoMapper.Extensions;
+using OrienteeringUkraine.Application.Infrastructure.Mediator.Extensions;
+using OrienteeringUkraine.Application.Infrastructure.Validation.Extensions;
+using OrienteeringUkraine.WebApi.Infrastructure.Data.Extensions;
 
 namespace OrienteeringUkraine.WebApi
 {
@@ -32,7 +23,9 @@ namespace OrienteeringUkraine.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                    .AddCustomValidation();
+
             // In production, the Angular files will be served from this directory
             //services.AddSpaStaticFiles(configuration =>
             //{
@@ -41,6 +34,8 @@ namespace OrienteeringUkraine.WebApi
             services.AddDatabase(Configuration);
             services.AddCustomMediator();
             services.AddCustomAutoMapper();
+
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Orienteering Ukraine API", Version = "v1" });

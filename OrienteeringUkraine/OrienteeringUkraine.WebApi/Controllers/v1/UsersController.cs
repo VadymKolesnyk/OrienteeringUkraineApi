@@ -21,11 +21,16 @@ namespace OrienteeringUkraine.WebApi.Controllers.v1
             return Ok(await Mediator.Send(new GetAllUsersQuery()));
         }
 
-        // GET api/<UsersController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        // GET api/<UsersController>/admin
+        [HttpGet("{Login}")]
+        public async Task<ActionResult<UserModel>> GetUserByLogin([FromRoute] GetUserByLoginQuery request)
         {
-            return "value";
+            var user = await Mediator.Send(request);
+            if (user is null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
         }
 
         // POST api/<UsersController>
