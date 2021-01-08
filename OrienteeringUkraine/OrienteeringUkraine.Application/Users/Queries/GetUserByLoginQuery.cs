@@ -1,16 +1,11 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
 using FluentValidation;
 using MediatR;
 using OrienteeringUkraine.Application.Users.Models;
 using OrienteeringUkraine.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-                                                                                       
+
 namespace OrienteeringUkraine.Application.Users.Queries
 {
     public class GetUserByLoginQuery : IRequest<UserModel>
@@ -42,4 +37,3 @@ namespace OrienteeringUkraine.Application.Users.Queries
         }
     }
 }
-                            

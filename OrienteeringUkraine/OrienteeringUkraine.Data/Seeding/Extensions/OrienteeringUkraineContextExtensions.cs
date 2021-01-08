@@ -65,7 +65,7 @@ namespace OrienteeringUkraine.Data.Seeding.Extensions
                 admin = context.Roles.First(r => r.Name == "admin");
                 moderator = context.Roles.First(r => r.Name == "moderator" );
                 organizer = context.Roles.First(r => r.Name == "organizer" );
-                sportsmen = context.Roles.First(r => r.Name == "sportsmen" );
+                sportsmen = context.Roles.First(r => r.Name == "sportsman" );
             }
             if (!context.Clubs.Any())
             {

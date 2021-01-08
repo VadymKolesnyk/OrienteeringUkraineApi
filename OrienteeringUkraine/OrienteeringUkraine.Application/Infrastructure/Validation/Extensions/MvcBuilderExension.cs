@@ -13,7 +13,11 @@ namespace OrienteeringUkraine.Application.Infrastructure.Validation.Extensions
     {
         public static IMvcBuilder AddCustomValidation(this IMvcBuilder builder)
         {
-            builder.AddFluentValidation(conf => conf.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
+            builder.AddFluentValidation(conf =>
+            {
+                conf.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+                conf.ValidatorOptions.LanguageManager = new OrienteeringUkraineLanguageManager();
+            });
             return builder;
         }
     }

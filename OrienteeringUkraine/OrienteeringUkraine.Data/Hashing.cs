@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OrienteeringUkraine.Data
 {
-    static class Hashing
+    public static class Hashing
     {
         public static string HashPassword(string password)
         {

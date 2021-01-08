@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using OrienteeringUkraine.Application.Users.Commands;
 using OrienteeringUkraine.Application.Users.Models;
 using OrienteeringUkraine.Application.Users.Queries;
 using System;
@@ -35,8 +36,15 @@ namespace OrienteeringUkraine.WebApi.Controllers.v1
 
         // POST api/<UsersController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult<UserModel>> Post([FromBody] CreateUserCommand request)
         {
+            var user = await Mediator.Send(request);
+            if (user is null)
+            {
+                return BadRequest();
+            }
+            return Created(new Uri($"{Request.Path}/{user.Login}", UriKind.Relative), user);
+
         }
 
         // PUT api/<UsersController>/5

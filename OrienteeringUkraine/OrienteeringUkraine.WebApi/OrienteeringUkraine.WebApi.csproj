@@ -27,8 +27,12 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="Infrastructure\Filters\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="Infrastructure\Filters\**" />
+    <EmbeddedResource Remove="Infrastructure\Filters\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="Infrastructure\Filters\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
